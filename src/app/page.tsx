@@ -1,48 +1,77 @@
 import Link from 'next/link';
+import { FaLock, FaMoneyBill, FaHistory } from 'react-icons/fa';
 
 export default function Home() {
   return (
-    <div className="max-w-3xl mx-auto text-center">
-      <h1 className="text-4xl font-bold mb-6">Welcome to PayApp</h1>
-      <p className="text-xl mb-8">
-        A simple and secure way to send and receive payments.
-      </p>
-      
-      <div className="grid sm:grid-cols-2 gap-4 max-w-md mx-auto">
-        <Link
-          href="/auth/login"
-          className="bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition-colors"
-        >
-          Login
-        </Link>
-        <Link
-          href="/auth/register"
-          className="bg-gray-800 text-white py-3 px-6 rounded-lg hover:bg-gray-900 transition-colors"
-        >
-          Register
-        </Link>
+    <div className="min-h-screen bg-gradient-to-br from-[#1a1f2b] via-[#1e2330] to-[#1a1f2b] flex flex-col justify-center py-16 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-indigo-500/10 to-transparent rounded-full blur-3xl"></div>
       </div>
-      
-      <div className="mt-16 grid md:grid-cols-3 gap-8">
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Easy Transfers</h2>
-          <p>
-            Transfer money instantly using unique 5-digit Pay IDs.
+
+      <div className="relative">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+          <h1 className="text-5xl font-extrabold text-white tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+            <span className="text-blue-400">₹</span>PayApp
+          </h1>
+          <p className="text-lg text-gray-300/90 max-w-md mx-auto leading-relaxed">
+            A simple and secure way to send and receive payments.
           </p>
         </div>
-        
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Secure</h2>
-          <p>
-            Your transactions are secure and your data is protected.
-          </p>
+
+        <div className="mt-12 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-white/5 backdrop-blur-xl py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-white/10">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Link
+                href="/auth/login"
+                className="group relative w-full flex items-center justify-center px-6 py-3.5 text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
+              >
+                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"></span>
+                <span className="relative">Login</span>
+              </Link>
+              <Link
+                href="/auth/register"
+                className="w-full flex items-center justify-center px-6 py-3.5 border border-white/20 text-base font-medium rounded-xl text-gray-200 bg-white/5 hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 backdrop-blur-sm"
+              >
+                Register
+              </Link>
+            </div>
+          </div>
         </div>
-        
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Track Payments</h2>
-          <p>
-            Keep track of all your transactions in one place.
-          </p>
+
+        <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-4xl">
+          <div className="grid md:grid-cols-3 gap-8 px-4 sm:px-0">
+            <div className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <FaMoneyBill className="text-2xl group-hover:text-blue-300 transition-colors" />
+              </div>
+              <h2 className="text-xl font-semibold mb-4 text-white group-hover:text-blue-300 transition-colors">Easy Transfers</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Transfer money instantly using unique 5-digit Pay IDs.
+              </p>
+            </div>
+
+            <div className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center text-green-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <FaLock className="text-2xl group-hover:text-green-300 transition-colors" />
+              </div>
+              <h2 className="text-xl font-semibold mb-4 text-white group-hover:text-green-300 transition-colors">Secure</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Your transactions are secure and your data is protected.
+              </p>
+            </div>
+
+            <div className="group bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/10 transition-all duration-300 border border-white/10 hover:border-white/20">
+              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 flex items-center justify-center text-indigo-400 mb-6 group-hover:scale-110 transition-transform duration-300">
+                <FaHistory className="text-2xl group-hover:text-indigo-300 transition-colors" />
+              </div>
+              <h2 className="text-xl font-semibold mb-4 text-white group-hover:text-indigo-300 transition-colors">Track Payments</h2>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                Keep track of all your transactions in one place.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

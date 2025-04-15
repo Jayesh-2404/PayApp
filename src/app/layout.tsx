@@ -1,7 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
-import Navbar from '@/components/Navbar';
 import { AuthProvider } from '@/components/AuthProvider';
+import Layout from '@/components/Layout';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,13 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <AuthProvider>
-          <Navbar />
-          <main className="container mx-auto py-8 px-4">
+          <Layout>
             {children}
-          </main>
+          </Layout>
         </AuthProvider>
       </body>
     </html>
