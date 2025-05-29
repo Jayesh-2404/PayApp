@@ -15,7 +15,7 @@ export default function PaymentPage() {
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-400 dark:bg-indigo-800 rounded-full opacity-10 blur-3xl"></div>
       </div>
       
-      <div className="w-full max-w-md relative z-10">
+      <div className="w-full max-w-xl relative z-10">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
