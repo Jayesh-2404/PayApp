@@ -10,19 +10,13 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  const { theme, setTheme } = useTheme();
+  // const { theme, setTheme } = useTheme();
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
       <Navbar />
       <div className="flex-grow max-w-screen-xl mx-auto p-4 relative">
-        <button
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          className="fixed top-4 right-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200 shadow transition-colors duration-200 border-none cursor-pointer flex items-center justify-center w-10 h-10 z-50"
-          aria-label="Toggle theme"
-        >
-          {theme === 'dark' ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}
-        </button>
+        {/* Theme toggle button removed as requested */}
         <main className="w-full">{children}</main>
       </div>
       <footer className="bg-white dark:bg-gray-900 shadow-inner mt-auto py-4">
