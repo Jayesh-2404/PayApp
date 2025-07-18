@@ -6,7 +6,7 @@ import Layout from '@/components/Layout';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'Payment App',
+  title: 'PayApp | Make Payment',
   description: 'Simple payment application with user authentication',
 };
 

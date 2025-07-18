@@ -13,10 +13,9 @@ export default function Navbar() {
     <nav className="bg-white dark:bg-gray-900 shadow transition-colors duration-300">
       <div className="max-w-screen-xl mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <Link href="/" className="flex items-center text-xl font-bold text-blue-600 dark:text-blue-400 transition-colors">
-            <FiDollarSign className="w-6 h-6 mr-2" />
-            <span>PayApp</span>
-          </Link>
+          <h1 className="text-5xl font-extrabold text-white tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
+            <span className="text-blue-400">₹</span>PayApp
+          </h1>
           <div className="flex items-center gap-6">
             {session?.user ? (
               <>
