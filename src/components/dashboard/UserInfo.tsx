@@ -17,10 +17,9 @@ export default function UserInfo() {
       try {
         const response = await fetch('/api/user');
         const data = await response.json();
-        
+
         if (data.success && data.data) {
-          setUserAmount(data.data.user.amount);
-        }
+          setUserAmount(data.data.amount);        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       } finally {
@@ -56,7 +55,7 @@ export default function UserInfo() {
               <div className="font-medium text-gray-900 dark:text-white">{session.user.name}</div>
             </div>
           </div>
-          
+
           <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors group hover:bg-gray-100 dark:hover:bg-gray-700">
             <div className="flex-shrink-0 w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-full flex items-center justify-center">
               <FiCreditCard className="w-6 h-6 text-purple-600 dark:text-purple-400" />
@@ -68,7 +67,7 @@ export default function UserInfo() {
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg transition-colors group hover:bg-gray-100 dark:hover:bg-gray-700">
             <div className="flex-shrink-0 w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center">
               <FiDollarSign className="w-6 h-6 text-green-600 dark:text-green-400" />
@@ -85,7 +84,7 @@ export default function UserInfo() {
             </div>
           </div>
         </div>
-        
+
         <div className="mt-8 grid grid-cols-2 gap-4">
           <button
             onClick={() => router.push('/payment')}
@@ -94,7 +93,7 @@ export default function UserInfo() {
             <FiSend className="w-5 h-5" />
             <span>Make Payment</span>
           </button>
-          
+
           <button
             onClick={() => router.push('/transaction')}
             className="inline-flex items-center justify-center space-x-2 bg-gray-600 text-white py-3 px-4 rounded-lg hover:bg-gray-700 transition-colors focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800"
