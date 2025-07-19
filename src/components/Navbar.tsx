@@ -10,12 +10,14 @@ export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow transition-colors duration-300">
+    <nav className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-md transition-colors duration-300 sticky top-0 z-50">
       <div className="max-w-screen-xl mx-auto px-4 py-3">
         <div className="flex justify-between items-center">
-          <h1 className="text-5xl font-extrabold text-white tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">
-            <span className="text-blue-400">₹</span>PayApp
-          </h1>
+          <Link href="/" className="flex items-center">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
+              <span className="text-blue-600">₹</span>PayApp
+            </h1>
+          </Link>
           <div className="flex items-center gap-6">
             {session?.user ? (
               <>
