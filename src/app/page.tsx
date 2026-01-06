@@ -1,79 +1,143 @@
 import Link from 'next/link';
-import { FaLock, FaMoneyBill, FaHistory } from 'react-icons/fa';
+import { BiRightArrowAlt, BiLock, BiLineChart, BiTransfer, BiStar } from 'react-icons/bi';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-100 dark:from-[#1a1f2b] dark:via-[#1e2330] dark:to-[#1a1f2b] flex flex-col justify-center py-16 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tl from-indigo-500/10 to-transparent rounded-full blur-3xl"></div>
-      </div>
+    <div className="min-h-screen bg-background text-foreground">
+      {/* Navbar */}
+      <nav className="border-b border-border sticky top-0 z-50 bg-background/80 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">₹</span>
+            </div>
+            <span className="text-xl font-bold">PayApp</span>
+          </div>
+          <div className="flex gap-4">
+            <Link href="/auth/login" className="px-5 py-2.5 rounded-xl font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Login
+            </Link>
+            <Link href="/auth/register" className="px-5 py-2.5 rounded-xl font-medium bg-primary text-primary-foreground hover:opacity-90 transition-opacity">
+              Get Started
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-      <div className="relative">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500 dark:from-blue-400 dark:to-indigo-400">
-            <span className="text-blue-600 dark:text-blue-400">₹</span>PayApp
-          </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300/90 max-w-md mx-auto leading-relaxed">
-            A simple and secure way to send and receive payments.
+      {/* Hero */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[100px]"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border text-sm font-medium mb-8">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+              Get ₹1000 free on signup
+            </div>
+
+            <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
+              The All-In-One{' '}
+              <span className="text-primary">Financial</span>{' '}
+              Platform.
+            </h1>
+
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+              Track financial milestones, get expert advice, take action to reach savings goals, and manage your money with ease.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/auth/register" className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 group">
+                Get A Demo
+                <BiRightArrowAlt className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <Link href="/auth/login" className="px-8 py-4 rounded-xl bg-card text-foreground border border-border font-medium text-lg hover:bg-accent transition-colors">
+                Sign In
+              </Link>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-primary">216+</div>
+              <div className="text-sm text-muted-foreground mt-1">Outlet Services</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold">4.7<span className="text-muted-foreground">/5</span></div>
+              <div className="text-sm text-muted-foreground mt-1">Customer Review</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold">63.2+</div>
+              <div className="text-sm text-muted-foreground mt-1">Total Customers</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl md:text-4xl font-bold">8.5%</div>
+              <div className="text-sm text-muted-foreground mt-1">Interest Rates</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="py-24 bg-card">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold mb-4">Plan For Every Milestone.</h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Achieve your financial objectives with automated recommendations and tailored advice.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="p-8 rounded-2xl bg-background border border-border hover:border-primary/50 transition-colors">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+                <BiTransfer className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Instant Transfers</h3>
+              <p className="text-muted-foreground">Send money to anyone using just their 5-digit PayID. Fast, secure, and fee-free.</p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-background border border-border hover:border-primary/50 transition-colors">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+                <BiLineChart className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Smart Analytics</h3>
+              <p className="text-muted-foreground">Track your spending patterns with detailed charts and month-wise breakdowns.</p>
+            </div>
+
+            <div className="p-8 rounded-2xl bg-background border border-border hover:border-primary/50 transition-colors">
+              <div className="w-14 h-14 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6">
+                <BiLock className="w-7 h-7" />
+              </div>
+              <h3 className="text-xl font-bold mb-3">Bank-Grade Security</h3>
+              <p className="text-muted-foreground">Your data and money are protected with state-of-the-art encryption.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-24">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to get started?</h2>
+          <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
+            Join thousands of users who trust PayApp for their daily transactions.
           </p>
+          <Link href="/auth/register" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all">
+            Create Free Account
+            <BiRightArrowAlt className="w-5 h-5" />
+          </Link>
         </div>
+      </section>
 
-        <div className="mt-12 sm:mx-auto sm:w-full sm:max-w-md">
-          <div className="bg-white/50 dark:bg-white/5 backdrop-blur-xl py-8 px-4 shadow-2xl sm:rounded-2xl sm:px-10 border border-gray-200 dark:border-white/10">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <Link
-                href="/auth/login"
-                className="group relative w-full flex items-center justify-center px-6 py-3.5 text-base font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-              >
-                <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 rounded-xl transition-opacity"></span>
-                <span className="relative">Login</span>
-              </Link>
-              <Link
-                href="/auth/register"
-                className="w-full flex items-center justify-center px-6 py-3.5 border border-gray-300 dark:border-white/20 text-base font-medium rounded-xl text-gray-700 dark:text-gray-200 bg-white/30 dark:bg-white/5 hover:bg-white/70 dark:hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 backdrop-blur-sm"
-              >
-                Register
-              </Link>
-            </div>
-          </div>
+      {/* Footer */}
+      <footer className="py-8 border-t border-border">
+        <div className="max-w-7xl mx-auto px-6 text-center text-muted-foreground">
+          <p>&copy; {new Date().getFullYear()} PayApp. All rights reserved.</p>
         </div>
-
-        <div className="mt-20 sm:mx-auto sm:w-full sm:max-w-4xl">
-          <div className="grid md:grid-cols-3 gap-8 px-4 sm:px-0">
-            <div className="group bg-white/30 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/50 dark:hover:bg-white/10 transition-all duration-300 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transform hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500/20 to-blue-600/20 flex items-center justify-center text-blue-500 dark:text-blue-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <FaMoneyBill className="text-2xl group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors" />
-              </div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-300 transition-colors">Easy Transfers</h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                Transfer money instantly using unique 5-digit Pay IDs.
-              </p>
-            </div>
-
-            <div className="group bg-white/30 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/50 dark:hover:bg-white/10 transition-all duration-300 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transform hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-green-500/20 to-green-600/20 flex items-center justify-center text-green-500 dark:text-green-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <FaLock className="text-2xl group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors" />
-              </div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-300 transition-colors">Secure</h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                Your transactions are secure and your data is protected.
-              </p>
-            </div>
-
-            <div className="group bg-white/30 dark:bg-white/5 backdrop-blur-sm rounded-2xl p-8 flex flex-col items-center text-center hover:bg-white/50 dark:hover:bg-white/10 transition-all duration-300 border border-gray-200 dark:border-white/10 hover:border-gray-300 dark:hover:border-white/20 transform hover:-translate-y-2">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-600/20 flex items-center justify-center text-indigo-500 dark:text-indigo-400 mb-6 group-hover:scale-110 transition-transform duration-300">
-                <FaHistory className="text-2xl group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors" />
-              </div>
-              <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-300 transition-colors">Track Payments</h2>
-              <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                Keep track of all your transactions in one place.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      </footer>
     </div>
   );
 }

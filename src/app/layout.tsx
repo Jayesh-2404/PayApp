@@ -1,9 +1,13 @@
 import './globals.css';
-import { Inter } from 'next/font/google';
+import { Roboto } from 'next/font/google';
 import { AuthProvider } from '@/components/AuthProvider';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import Layout from '@/components/Layout';
 
-const inter = Inter({ subsets: ['latin'] });
+const roboto = Roboto({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '700', '900']
+});
 
 export const metadata = {
   title: 'PayApp | Make Payment',
@@ -17,11 +21,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <AuthProvider>
-          <Layout>
-            {children}
-          </Layout>
+          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+            <Layout>
+              {children}
+            </Layout>
+          </ThemeProvider>
         </AuthProvider>
       </body>
     </html>

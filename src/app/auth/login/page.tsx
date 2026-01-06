@@ -1,37 +1,67 @@
 import { Metadata } from 'next';
 import LoginForm from '@/components/auth/LoginForm';
-import Image from 'next/image';
+import Link from 'next/link';
+import { BiLock } from 'react-icons/bi';
 
 export const metadata: Metadata = {
-  title: 'Login | Payment App',
+  title: 'Login | PayApp',
   description: 'Log in to your account',
 };
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col items-center pt-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-950 px-4 relative overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-        <div className="absolute -top-40 -right-40 w-96 h-96 bg-blue-400 dark:bg-blue-800 rounded-full opacity-10 blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-indigo-400 dark:bg-indigo-800 rounded-full opacity-10 blur-3xl animate-pulse delay-1000"></div>
-      </div>
-      
-      <div className="w-full max-w-sm relative z-10">
-        <div className="text-center mb-5">
-          <div className="flex justify-center mb-3">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform duration-200">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-              </svg>
+    <div className="min-h-screen flex bg-background">
+      {/* Left - Form */}
+      <div className="flex-1 flex flex-col items-center justify-center px-8 py-12">
+        <div className="w-full max-w-md">
+          <Link href="/" className="inline-flex items-center gap-2 mb-12">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">₹</span>
             </div>
+            <span className="text-xl font-bold">PayApp</span>
+          </Link>
+
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold mb-2">Welcome back</h1>
+            <p className="text-muted-foreground">Enter your credentials to access your account</p>
           </div>
-          <h1 className="text-xl font-bold text-gray-800 dark:text-white mb-1">Welcome Back</h1>
-          <p className="text-sm text-gray-600 dark:text-gray-300">Sign in to your account to continue</p>
+
+          <LoginForm />
+
+          <div className="mt-8 text-center">
+            <p className="text-muted-foreground">
+              Don't have an account?{' '}
+              <Link href="/auth/register" className="text-primary hover:underline font-medium">
+                Create one
+              </Link>
+            </p>
+          </div>
         </div>
-        <LoginForm />
-        
-        <div className="mt-4 text-center text-xs text-gray-500 dark:text-gray-400">
-          <p>By signing in, you agree to our <a href="#" className="text-blue-600 hover:underline dark:text-blue-400">Terms of Service</a> and <a href="#" className="text-blue-600 hover:underline dark:text-blue-400">Privacy Policy</a></p>
+      </div>
+
+      {/* Right - Feature Showcase */}
+      <div className="hidden lg:flex flex-1 bg-card items-center justify-center p-12 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+        </div>
+
+        <div className="relative z-10 max-w-md text-center">
+          <div className="w-20 h-20 rounded-2xl bg-primary mx-auto mb-8 flex items-center justify-center">
+            <BiLock className="w-10 h-10 text-primary-foreground" />
+          </div>
+
+          <h2 className="text-2xl font-bold mb-4">Secure Payments</h2>
+          <p className="text-muted-foreground text-lg leading-relaxed">
+            "The best way to predict the future is to create it. Start building your financial freedom today."
+          </p>
+
+          <div className="mt-8 flex items-center justify-center gap-4">
+            <div className="w-3 h-3 rounded-full bg-primary"></div>
+            <div className="w-3 h-3 rounded-full bg-muted"></div>
+            <div className="w-3 h-3 rounded-full bg-muted"></div>
+          </div>
         </div>
       </div>
     </div>

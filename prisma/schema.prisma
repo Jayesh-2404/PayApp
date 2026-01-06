@@ -20,6 +20,23 @@ model User {
 
   sentTransactions     Transaction[] @relation("SenderUser")
   receivedTransactions Transaction[] @relation("ReceiverUser")
+  
+  isAdmin Boolean @default(false)
+  
+  friends Friendship[] @relation("UserFriends")
+  friendOf Friendship[] @relation("FriendUser")
+}
+
+model Friendship {
+  id        String   @id @default(uuid())
+  userId    String
+  friendId  String
+  createdAt DateTime @default(now())
+
+  user   User @relation("UserFriends", fields: [userId], references: [id])
+  friend User @relation("FriendUser", fields: [friendId], references: [id])
+
+  @@unique([userId, friendId])
 }
 
 model Transaction {
