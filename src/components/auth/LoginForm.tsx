@@ -3,11 +3,11 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
-import { BiEnvelope, BiUser, BiLoaderAlt } from 'react-icons/bi';
+import { BiEnvelope, BiLock, BiLoaderAlt } from 'react-icons/bi';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
@@ -20,12 +20,12 @@ export default function LoginForm() {
     try {
       const result = await signIn('credentials', {
         email,
-        name,
+        password,
         redirect: false,
       });
 
       if (result?.error) {
-        throw new Error('Invalid login credentials');
+        throw new Error('Invalid email or password');
       }
 
       router.push('/dashboard');
@@ -46,21 +46,6 @@ export default function LoginForm() {
       )}
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Name</label>
-        <div className="relative">
-          <BiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter your name"
-            className="w-full pl-12 pr-4 py-3.5 bg-card border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
-            required
-          />
-        </div>
-      </div>
-
-      <div className="space-y-2">
         <label className="text-sm font-medium">Email</label>
         <div className="relative">
           <BiEnvelope className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
@@ -69,6 +54,21 @@ export default function LoginForm() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Enter your email"
+            className="w-full pl-12 pr-4 py-3.5 bg-card border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
+            required
+          />
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Password</label>
+        <div className="relative">
+          <BiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Enter your password"
             className="w-full pl-12 pr-4 py-3.5 bg-card border border-border rounded-xl focus:ring-2 focus:ring-primary focus:border-primary transition-all placeholder:text-muted-foreground"
             required
           />

@@ -38,43 +38,23 @@ export default function Home() {
             </div>
 
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-tight">
-              The All-In-One{' '}
-              <span className="text-primary">Financial</span>{' '}
-              Platform.
+              Your Digital{' '}
+              <span className="text-primary">Wallet</span>{' '}
+              for Instant Transfers.
             </h1>
 
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-              Track financial milestones, get expert advice, take action to reach savings goals, and manage your money with ease.
+              Send money instantly using unique PayIDs. Add friends, chat, and transfer funds securely—all in one place.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/auth/register" className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all flex items-center justify-center gap-2 group">
-                Get A Demo
+                Get Started Free
                 <BiRightArrowAlt className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link href="/auth/login" className="px-8 py-4 rounded-xl bg-card text-foreground border border-border font-medium text-lg hover:bg-accent transition-colors">
                 Sign In
               </Link>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 max-w-3xl mx-auto">
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-primary">216+</div>
-              <div className="text-sm text-muted-foreground mt-1">Outlet Services</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold">4.7<span className="text-muted-foreground">/5</span></div>
-              <div className="text-sm text-muted-foreground mt-1">Customer Review</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold">63.2+</div>
-              <div className="text-sm text-muted-foreground mt-1">Total Customers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl md:text-4xl font-bold">8.5%</div>
-              <div className="text-sm text-muted-foreground mt-1">Interest Rates</div>
             </div>
           </div>
         </div>
@@ -123,7 +103,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-6 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to get started?</h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Join thousands of users who trust PayApp for their daily transactions.
+            Create your account in seconds and get ₹1000 bonus to try instant transfers.
           </p>
           <Link href="/auth/register" className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg hover:opacity-90 transition-all">
             Create Free Account

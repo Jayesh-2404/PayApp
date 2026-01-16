@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import prisma from "@/lib/db";
 
 export async function POST(req: Request) {
     const session = await getServerSession();
@@ -11,7 +9,10 @@ export async function POST(req: Request) {
     try {
         const { email, payId } = await req.json();
 
-        const user = await prisma.user.findUnique({ where: { email: session.user.email } });
+        const user = await prisma.user.findUnique({
+            where: { email: session.user.email },
+            select: { id: true }
+        });
         if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
         const friend = await prisma.user.findFirst({
@@ -20,7 +21,8 @@ export async function POST(req: Request) {
                     { email: email },
                     { payId: payId }
                 ]
-            }
+            },
+            select: { id: true, name: true, payId: true }
         });
 
         if (!friend) return NextResponse.json({ error: "Friend not found" }, { status: 404 });
@@ -42,7 +44,11 @@ export async function POST(req: Request) {
             }
         });
 
-        return NextResponse.json({ success: true, friend });
+        // Only return necessary data
+        return NextResponse.json({
+            success: true,
+            friend: { name: friend.name, payId: friend.payId }
+        });
     } catch (error) {
         return NextResponse.json({ error: "Failed to add friend" }, { status: 500 });
     }
@@ -57,7 +63,9 @@ export async function GET(req: Request) {
         include: {
             friends: {
                 include: {
-                    friend: true
+                    friend: {
+                        select: { id: true, name: true, payId: true }
+                    }
                 }
             }
         }
@@ -65,5 +73,10 @@ export async function GET(req: Request) {
 
     if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-    return NextResponse.json(user.friends.map(f => f.friend));
+    // Only return id, name, payId for each friend
+    return NextResponse.json(user.friends.map(f => ({
+        id: f.friend.id,
+        name: f.friend.name,
+        payId: f.friend.payId
+    })));
 }

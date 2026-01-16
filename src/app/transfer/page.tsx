@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { BiSend, BiSearch, BiCheckCircle, BiErrorCircle, BiUser } from "react-icons/bi";
+import { useState, useRef } from "react";
+import { BiSend, BiCheckCircle, BiErrorCircle, BiUser } from "react-icons/bi";
 import { useRouter } from "next/navigation";
 
 export default function TransferPage() {
@@ -11,10 +11,17 @@ export default function TransferPage() {
     const [message, setMessage] = useState("");
     const router = useRouter();
 
+    // Prevent double submission
+    const isSubmitting = useRef(false);
+
     const handleTransfer = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        // Prevent double-click
+        if (isSubmitting.current || status === "loading") return;
         if (!payId || !amount) return;
 
+        isSubmitting.current = true;
         setStatus("loading");
         setMessage("");
 
@@ -24,7 +31,9 @@ export default function TransferPage() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     receiverPayId: payId,
-                    amount: parseFloat(amount)
+                    amount: parseFloat(amount),
+                    // Idempotency key to prevent duplicate transactions
+                    idempotencyKey: `${Date.now()}-${payId}-${amount}`
                 }),
             });
 
@@ -40,10 +49,12 @@ export default function TransferPage() {
             } else {
                 setStatus("error");
                 setMessage(data.error || "Transfer failed");
+                isSubmitting.current = false;
             }
         } catch (err) {
             setStatus("error");
             setMessage("An error occurred");
+            isSubmitting.current = false;
         }
     };
 
@@ -81,6 +92,7 @@ export default function TransferPage() {
                                     maxLength={5}
                                     className="w-full pl-12 pr-4 py-4 bg-muted border border-transparent rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary text-lg font-mono tracking-widest transition-all placeholder:text-muted-foreground placeholder:tracking-normal placeholder:font-normal"
                                     required
+                                    disabled={status === "loading"}
                                 />
                             </div>
                         </div>
@@ -98,6 +110,7 @@ export default function TransferPage() {
                                     min="1"
                                     className="w-full pl-12 pr-4 py-4 bg-muted border border-transparent rounded-2xl focus:ring-2 focus:ring-primary focus:border-primary text-3xl font-bold transition-all placeholder:text-muted-foreground"
                                     required
+                                    disabled={status === "loading"}
                                 />
                             </div>
                         </div>
@@ -109,9 +122,10 @@ export default function TransferPage() {
                                     key={amt}
                                     type="button"
                                     onClick={() => setAmount(String(amt))}
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${amount === String(amt)
-                                            ? "bg-primary text-primary-foreground"
-                                            : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
+                                    disabled={status === "loading"}
+                                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all disabled:opacity-50 ${amount === String(amt)
+                                        ? "bg-primary text-primary-foreground"
+                                        : "bg-muted text-muted-foreground hover:bg-accent hover:text-foreground"
                                         }`}
                                 >
                                     ₹{amt.toLocaleString()}
@@ -139,7 +153,7 @@ export default function TransferPage() {
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                                     </svg>
-                                    Sending...
+                                    Processing...
                                 </>
                             ) : (
                                 <>

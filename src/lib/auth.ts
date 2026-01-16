@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcryptjs";
 import prisma from "./db";
 
 export const authOptions: NextAuthOptions = {
@@ -8,10 +9,10 @@ export const authOptions: NextAuthOptions = {
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        name: { label: "Name", type: "text" },
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email) {
+        if (!credentials?.email || !credentials?.password) {
           return null;
         }
 
@@ -20,17 +21,34 @@ export const authOptions: NextAuthOptions = {
           where: { email: credentials.email },
         });
 
-        // Return user if found
-        if (user) {
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            payId: user.payId,
-          };
+        if (!user) {
+          return null;
         }
 
-        return null;
+        // Check if user has a password set
+        if (!user.password) {
+          // User exists but hasn't set a password yet (legacy user)
+          // For now, we'll require them to register again or reset password
+          return null;
+        }
+
+        // Verify password
+        const isValidPassword = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+
+        if (!isValidPassword) {
+          return null;
+        }
+
+        // Return user if valid
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          payId: user.payId,
+        };
       },
     }),
   ],

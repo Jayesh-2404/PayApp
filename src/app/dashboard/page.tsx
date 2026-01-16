@@ -1,10 +1,9 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 import Link from "next/link";
-import { BiSend, BiCopy, BiHistory, BiUser } from "react-icons/bi";
-
-const prisma = new PrismaClient();
+import { BiSend, BiHistory, BiUser } from "react-icons/bi";
+import { CopyPayIdButton } from "@/components/dashboard/CopyPayIdButton";
 
 export default async function DashboardPage() {
   const session = await getServerSession();
@@ -60,9 +59,7 @@ export default async function DashboardPage() {
                 <p className="text-muted-foreground text-sm mb-1">Your PayID</p>
                 <div className="flex items-center gap-3">
                   <span className="text-4xl font-bold tracking-wider text-primary">{user.payId}</span>
-                  <button className="p-2 bg-muted rounded-lg hover:bg-accent transition-colors" title="Copy PayID">
-                    <BiCopy className="w-4 h-4" />
-                  </button>
+                  <CopyPayIdButton payId={user.payId} />
                 </div>
               </div>
               <div className="w-12 h-12 rounded-xl bg-primary flex items-center justify-center">
@@ -127,8 +124,8 @@ export default async function DashboardPage() {
               <div key={tx.id} className="p-5 flex items-center justify-between hover:bg-accent/50 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className={`w-12 h-12 rounded-full flex items-center justify-center ${tx.type === 'sent'
-                      ? 'bg-destructive/10'
-                      : 'bg-primary/10'
+                    ? 'bg-destructive/10'
+                    : 'bg-primary/10'
                     }`}>
                     <BiUser className={`w-5 h-5 ${tx.type === 'sent' ? 'text-destructive' : 'text-primary'}`} />
                   </div>

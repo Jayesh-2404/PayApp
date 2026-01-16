@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import prisma from "@/lib/db";
 import { generatePayId } from "@/lib/utils";
 import { ApiResponse, UserResponse } from "@/types";
@@ -7,7 +8,23 @@ export async function POST(
   req: NextRequest
 ): Promise<NextResponse<ApiResponse<UserResponse["user"]>>> {
   try {
-    const { name, email } = await req.json();
+    const { name, email, password } = await req.json();
+
+    // Validate required fields
+    if (!name || !email || !password) {
+      return NextResponse.json(
+        { success: false, error: "Name, email, and password are required" },
+        { status: 400 }
+      );
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      return NextResponse.json(
+        { success: false, error: "Password must be at least 6 characters" },
+        { status: 400 }
+      );
+    }
 
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({
@@ -20,6 +37,9 @@ export async function POST(
         { status: 400 }
       );
     }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 12);
 
     // Generate a unique 5-character pay ID
     let payId = generatePayId();
@@ -38,11 +58,12 @@ export async function POST(
       }
     }
 
-    // Create new user with initial amount of 1000
+    // Create new user with hashed password
     const newUser = await prisma.user.create({
       data: {
         name,
         email,
+        password: hashedPassword,
         payId,
         amount: 1000, // Initial reward amount
       },
