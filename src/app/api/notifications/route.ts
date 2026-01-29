@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db";
 
-const prisma = new PrismaClient();
-
-// GET notifications (received transactions)
+// GET notifications 
 export async function GET() {
     const session = await getServerSession();
     if (!session?.user?.email) {
@@ -33,7 +31,7 @@ export async function GET() {
         amount: tx.amount,
         sender: tx.sender.name,
         createdAt: tx.createdAt.toISOString(),
-        read: false, // In a real app, you'd track this in the database
+        read: tx.read,
     }));
 
     return NextResponse.json(notifications);
@@ -41,6 +39,28 @@ export async function GET() {
 
 // PATCH - mark all as read
 export async function PATCH() {
-    // In a real app, you'd update a "read" field in the database
+    const session = await getServerSession();
+    if (!session?.user?.email) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const user = await prisma.user.findUnique({
+        where: { email: session.user.email },
+        select: { id: true }
+    });
+
+    if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+    // Mark all unread received transactions as read
+    await prisma.transaction.updateMany({
+        where: {
+            receiverId: user.id,
+            read: false
+        },
+        data: {
+            read: true
+        }
+    });
+
     return NextResponse.json({ success: true });
 }

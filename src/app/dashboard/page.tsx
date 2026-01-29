@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import Link from "next/link";
 import { BiSend, BiHistory, BiUser } from "react-icons/bi";
 import { CopyPayIdButton } from "@/components/dashboard/CopyPayIdButton";
+import BalanceCard from "@/components/dashboard/BalanceCard";
 
 export default async function DashboardPage() {
   const session = await getServerSession();
@@ -80,22 +81,11 @@ export default async function DashboardPage() {
         </div>
 
         {/* Balance Card */}
-        <div className="bg-primary text-primary-foreground rounded-3xl p-6 flex flex-col justify-between">
-          <div>
-            <p className="text-primary-foreground/70 text-sm mb-2">Available Balance</p>
-            <p className="text-4xl font-bold">
-              ₹{user.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
-            </p>
-          </div>
-
-          <Link
-            href="/transfer"
-            className="mt-6 flex items-center justify-center gap-2 bg-primary-foreground text-primary py-4 rounded-2xl font-semibold hover:opacity-90 transition-opacity"
-          >
-            <BiSend className="w-5 h-5" />
-            Send Money
-          </Link>
-        </div>
+        <BalanceCard
+          initialAmount={user.amount}
+          initialPayId={user.payId}
+          initialName={user.name}
+        />
       </div>
 
       {/* Recent Transactions */}

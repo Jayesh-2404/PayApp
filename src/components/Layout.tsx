@@ -7,6 +7,7 @@ import Navbar from './Navbar';
 import { Sidebar } from './Sidebar';
 import { NotificationDropdown } from './NotificationDropdown';
 import { ThemeToggle } from './ThemeToggle';
+import MobileMenuButton from './MobileMenuButton';
 import { FiSearch } from 'react-icons/fi';
 
 type LayoutProps = {
@@ -17,6 +18,7 @@ type LayoutProps = {
 const noLayoutPages = ['/', '/auth/login', '/auth/register'];
 
 export default function Layout({ children }: LayoutProps) {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const { data: session, status } = useSession();
   const pathname = usePathname();
   const [mounted, setMounted] = useState(false);
@@ -35,12 +37,14 @@ export default function Layout({ children }: LayoutProps) {
 
   if (isAuth) {
     return (
-      <div className="flex min-h-screen bg-background text-foreground font-sans">
-        <Sidebar />
+      <div className="flex min-h-screen bg-background text-foreground">
+        <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
         <div className="flex-1 flex flex-col md:ml-72 transition-all duration-300">
           {/* Header */}
           <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border px-6 py-4 flex items-center justify-between">
-            <div>
+            <div className="flex items-center gap-4">
+              <MobileMenuButton isOpen={isSidebarOpen} onClick={() => setIsSidebarOpen(!isSidebarOpen)} />
               <h2 className="text-lg font-semibold">Welcome back!</h2>
             </div>
 
@@ -67,7 +71,7 @@ export default function Layout({ children }: LayoutProps) {
             </div>
           </header>
 
-          <main className="flex-1 p-8 overflow-x-hidden">
+          <main className="flex-1 p-4 md:p-8 overflow-x-hidden">
             {children}
           </main>
         </div>

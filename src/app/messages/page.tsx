@@ -32,6 +32,7 @@ export default function MessagesPage() {
     const [addingFriend, setAddingFriend] = useState(false);
     const [addFriendMessage, setAddFriendMessage] = useState("");
     const [isLoadingFriends, setIsLoadingFriends] = useState(true);
+    const [isLoadingMessages, setIsLoadingMessages] = useState(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Prevent double payment
@@ -40,6 +41,18 @@ export default function MessagesPage() {
     useEffect(() => {
         fetchFriends();
     }, []);
+
+    // Fetch messages when a friend is selected
+    useEffect(() => {
+        if (selectedFriend) {
+            fetchMessages(selectedFriend.id);
+        }
+    }, [selectedFriend]);
+
+    // Scroll to bottom when messages change
+    useEffect(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [messages]);
 
     const fetchFriends = async () => {
         setIsLoadingFriends(true);
@@ -51,6 +64,21 @@ export default function MessagesPage() {
             console.error("Failed to fetch friends:", err);
         } finally {
             setIsLoadingFriends(false);
+        }
+    };
+
+    const fetchMessages = async (friendId: string) => {
+        setIsLoadingMessages(true);
+        try {
+            const res = await fetch(`/api/messages?friendId=${friendId}`);
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                setMessages(data);
+            }
+        } catch (err) {
+            console.error("Failed to fetch messages:", err);
+        } finally {
+            setIsLoadingMessages(false);
         }
     };
 
@@ -105,14 +133,23 @@ export default function MessagesPage() {
             });
 
             if (res.ok) {
-                setMessages(prev => [...prev, {
-                    id: Date.now().toString(),
-                    text: `Sent ₹${amount}`,
-                    senderId: "me",
-                    createdAt: new Date().toISOString(),
-                    type: 'payment',
-                    amount: parseFloat(amount)
-                }]);
+                // Save the payment as a message in the database
+                const msgRes = await fetch("/api/messages", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        friendId: selectedFriend.id,
+                        text: `Sent ₹${amount}`,
+                        type: "payment",
+                        amount: parseFloat(amount)
+                    }),
+                });
+
+                if (msgRes.ok) {
+                    const newMsg = await msgRes.json();
+                    setMessages(prev => [...prev, newMsg]);
+                }
+
                 setMoneySent(true);
                 setTimeout(() => {
                     setMoneySent(false);
@@ -134,17 +171,35 @@ export default function MessagesPage() {
         }
     };
 
-    const sendMessage = () => {
-        if (!newMessage.trim()) return;
+    const sendMessage = async () => {
+        if (!newMessage.trim() || !selectedFriend) return;
 
-        setMessages(prev => [...prev, {
-            id: Date.now().toString(),
-            text: newMessage,
-            senderId: "me",
-            createdAt: new Date().toISOString(),
-            type: 'text'
-        }]);
-        setNewMessage("");
+        const messageText = newMessage;
+        setNewMessage(""); // Clear input immediately for better UX
+
+        try {
+            const res = await fetch("/api/messages", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    friendId: selectedFriend.id,
+                    text: messageText,
+                    type: "text"
+                }),
+            });
+
+            if (res.ok) {
+                const newMsg = await res.json();
+                setMessages(prev => [...prev, newMsg]);
+            } else {
+                // Restore the message if it failed
+                setNewMessage(messageText);
+                console.error("Failed to send message");
+            }
+        } catch (err) {
+            setNewMessage(messageText);
+            console.error("Failed to send message:", err);
+        }
     };
 
     return (
@@ -191,8 +246,8 @@ export default function MessagesPage() {
 
                         {addFriendMessage && (
                             <div className={`mb-4 p-3 rounded-xl text-sm ${addFriendMessage.includes("added")
-                                    ? "bg-primary/10 text-primary"
-                                    : "bg-destructive/10 text-destructive"
+                                ? "bg-primary/10 text-primary"
+                                : "bg-destructive/10 text-destructive"
                                 }`}>
                                 {addFriendMessage}
                             </div>
@@ -316,7 +371,11 @@ export default function MessagesPage() {
 
                             {/* Messages */}
                             <div className="flex-1 p-4 overflow-y-auto">
-                                {messages.length === 0 ? (
+                                {isLoadingMessages ? (
+                                    <div className="h-full flex items-center justify-center">
+                                        <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin"></div>
+                                    </div>
+                                ) : messages.length === 0 ? (
                                     <div className="h-full flex items-center justify-center text-center">
                                         <div>
                                             <div className="w-16 h-16 bg-muted rounded-full flex items-center justify-center mx-auto mb-4">
@@ -336,8 +395,21 @@ export default function MessagesPage() {
                                                         ? 'bg-primary text-primary-foreground'
                                                         : 'bg-muted'
                                                     }`}>
-                                                    {msg.type === 'payment' && <p className="text-xs opacity-80 mb-1">💸 Payment</p>}
+                                                    {msg.type === 'payment' && (
+                                                        <div className="flex items-center gap-1 text-xs opacity-80 mb-1">
+                                                            <BiDollar className="w-3 h-3" />
+                                                            <span>Payment</span>
+                                                        </div>
+                                                    )}
                                                     <p className="text-sm">{msg.text}</p>
+                                                    <p className="text-[10px] opacity-60 mt-1">
+                                                        {new Date(msg.createdAt).toLocaleDateString('en-IN', {
+                                                            day: 'numeric',
+                                                            month: 'short',
+                                                            hour: '2-digit',
+                                                            minute: '2-digit'
+                                                        })}
+                                                    </p>
                                                 </div>
                                             </div>
                                         ))}
