@@ -1,12 +1,11 @@
 import './globals.css';
-import { Roboto } from 'next/font/google';
+import { Geist_Mono } from 'next/font/google';
 import { AuthProvider } from '@/components/AuthProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Layout from '@/components/Layout';
 
-const roboto = Roboto({
+const geistMono = Geist_Mono({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '700', '900']
 });
 
 export const metadata = {
@@ -21,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={roboto.className}>
+      <body className={geistMono.className}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Layout>
