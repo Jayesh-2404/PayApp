@@ -1,11 +1,13 @@
 import './globals.css';
-import { Geist_Mono } from 'next/font/google';
+import { Poppins } from 'next/font/google';
 import { AuthProvider } from '@/components/AuthProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import Layout from '@/components/Layout';
 
-const geistMono = Geist_Mono({
+const poppins = Poppins({
   subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-poppins',
 });
 
 export const metadata = {
@@ -20,7 +22,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={geistMono.className}>
+      <body className={`${poppins.variable} ${poppins.className}`}>
         <AuthProvider>
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
             <Layout>
